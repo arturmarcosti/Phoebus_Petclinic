@@ -1,6 +1,14 @@
-provider "aws" {
-    region = "us-east-1e"
+provider aws {
+    region = "us-east-1"
     
+}
+
+terraform{
+    backend "s3" {
+        region = "us-east-1"
+        bucket = "Petclinic-backend"
+        key = "terraform.tfstate"
+    }
 }
 
 resource "aws_instance" "web"{
@@ -14,7 +22,8 @@ resource "aws_instance" "web"{
 }
 
 resource "aws_key_pair" "petclinic" {
-    key_name = "petclinic"
+    key_name = "Server-Principal"
+    public_key = ""
   
 }
 
@@ -31,12 +40,5 @@ resource "aws_security_group" "petclinic" {
             cidr_blocks = ingress.value["cidr_blocks"]
         }
     }
-
-    egress = {
-     cidr_blocks = [ "0.0.0.0/0" ]
-     from_port = 0
-     protocol = "-1"
-     to_port = 0
-    }   
 
 }
