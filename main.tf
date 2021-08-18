@@ -13,8 +13,8 @@ terraform{
     }
 }
 
-resource "aws_instance" "web"{
-    ami = "data.aws_ami.ubuntu.id"
+resource "aws_instance" "petclinic"{
+    ami = "ami-09e67e426f25ce0d7"
     instance_type = "t2.micro"
 
     tags = {
@@ -23,18 +23,13 @@ resource "aws_instance" "web"{
   }
 }
 
-resource "aws_key_pair" "petclinic" {
-    profile = "petclinic"
-
-}
-
 ## os Cidr_blocks estão para aceitar qualquer tipo de conexão apenas por se tratar de ambiente de homologação.
 resource "aws_security_group" "petclinic" {
 
     dynamic "ingress" {
         for_each = var.default_ingress
         content {
-            description = ingress.voluel["description"]
+            description = ingress.value["description"]
             from_port = ingress.key
             to_port = ingress.key
             protocol = "tcp"
