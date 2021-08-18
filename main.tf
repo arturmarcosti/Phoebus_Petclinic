@@ -1,11 +1,12 @@
 provider aws {
-    region = "us-east-1"
+    region = "us-east-2"
+    profile = "petclinic"
     
 }
 
 terraform{
     backend "s3" {
-        region = "us-east-1"
+        region = "us-east-2"
         bucket = "Petclinic-backend"
         key = "terraform.tfstate"
     }
@@ -22,8 +23,7 @@ resource "aws_instance" "web"{
 }
 
 resource "aws_key_pair" "petclinic" {
-    key_name = "Server-Principal"
-    public_key = ""
+    profile = "petclinic"
   
 }
 
