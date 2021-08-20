@@ -8,24 +8,14 @@ terraform {
 }
 
 provider "docker" {
+  host = "unix:///var/run/docker.sock."
 }
 
-# Pulls the image
-resource "docker_image" "springboot-petclinic" {
-  name = "arey/springboot-petclinic"
-  keep_locally = true
-}
+module "module" {
+  source  = "alinefr/module/docker"
+  version = "4.0.1"
+  image = "arey/springboot-petclinic:latest"
+  container_name = "springboot-petclinic"
+  restart_policy = "always"
 
-# Create a container
-resource "docker_container" "springboot-petclinic" {
-  name  = "arey/springboot-petclinic"
-  image = docker_image.arey/springboot-petclinic
-  command = ["tail", "-f", "dev/null"]
-  
-  ports {
-      internal = 80
-      external = 8080
-      protocol = "tcp"
-  }
-  
 }
